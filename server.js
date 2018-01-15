@@ -28,6 +28,16 @@ app.get('/posts', (req, res) => {
       })
       .catch(err => {
         console.error(err);
-        res.status(500).json({ error: 'something went terribly wrong' });
-      });
-  });
+        res.status(500).json({ error: 'Something went wrong' });
+    });
+});
+
+app.get('/post/:id', (req,res) => {
+  BlogPost
+    .findById(req.params.id)
+    .then(post => res.json(post.serialize()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error:'something went wrong'});
+    });
+}); 
