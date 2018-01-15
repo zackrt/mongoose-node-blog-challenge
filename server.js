@@ -14,3 +14,6 @@ const { DATABASE_URL, PORT } = require('./config');
 const { BlogPost } = require('./models');
 //set app const to express
 const app = express(); 
+//call morgan & bodyParser.json
+app.use(morgan('common'));
+app.use(bodyParser.json());
