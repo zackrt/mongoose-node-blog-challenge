@@ -22,5 +22,18 @@ const blogPostSchema = mongoose.Schema({
 blogPostSchema.virtual('authorName').get(function() {
     return `${this.author.firstName} ${this.author.lastName}`.trim();
   });
-  
+//set methods.serialize?? as a function to return uniquely generated id, author(with virtual authorName, content, title, created,  
+blogPostSchema.methods.serialize = function() {
+    return {
+      id: this._id,
+      author: this.authorName,
+      content: this.content,
+      title: this.title,
+      created: this.created
+    };
+};
+//assign mongoose.model to a const BlogPost for export  
+const BlogPost = mongoose.model('BlogPost', blogPostSchema);
+//export as BlogPost for otehr js files  
+module.exports = {BlogPost};  
 
