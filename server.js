@@ -43,15 +43,15 @@ app.get('/post/:id', (req,res) => {
 }); 
 //post with a For Loop of required fields, if the field is not filled out properly, return error (const message) saying which field needs to be filled out: title, content, or author
 app.post('/posts', (req, res) => {
-  const requiredFields = ['title',,'content','author']
-  for (let i = 0; i < requiredFields.length; i++)
-    const field = requiredField[i];
+  const requiredFields = ['title',,'content','author'];
+  for (let i = 0; i < requiredFields.length; i++) {
+    const field = requiredFields[i];
     if (!(field in req.body)) {
-      const message = `Missing \`${field}\` in request body`
+      const message = `Missing \`${field}\` in request body`;
       console.error(message);
       return res.status(400).send(message);
     }
-})
+}
 //setup BlogPost .create with 3 objects: title, content and author
   BlogPost
     .create({
@@ -62,6 +62,18 @@ app.post('/posts', (req, res) => {
     .then(blogPost => res.status(201).json(blogPost.serialize()))
     .catch(err => {
       console.error(err);
-      res.status(500).json({ error: 'Something went wrong'})
+      res.status(500).json({ error: 'Something went wrong'});
     });
   });
+//delete functionality
+app.delete('/post/:id', (req, res => {
+  BlogPost
+    .findByIdAndRemove(req.params.id)
+    .then(() => {
+      res.status(204).json({ message: 'Success!'});
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'something went wrong'});
+    });
+});
