@@ -77,3 +77,25 @@ app.delete('/post/:id', (req, res => {
       res.status(500).json({ error: 'something went wrong'});
     });
 });
+
+app.put('/posts/:id', (req,res) => {
+ if (!(req.params.id && req.body.id === req.body.id)) {
+   res.status(400).json({
+     error: 'Request path id and request body id values must match'
+   });
+ }
+
+const updated = {};
+//array updateableFields then use forEach
+const updateableFields = ['title','content','author'];
+updateableFields.forEach(field => {
+ if (field in req.body) {
+   updated[field] = req.body[field];
+ }
+}); 
+
+BlogPost
+  .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
+  .then(updatedPost => res.status(204).end())
+  .catch(err => res.status(500).json({ message:'something went wrong'})); 
+});
