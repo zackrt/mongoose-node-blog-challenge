@@ -99,3 +99,17 @@ BlogPost
   .then(updatedPost => res.status(204).end())
   .catch(err => res.status(500).json({ message:'something went wrong'})); 
 });
+
+app.delete('/:id', (req,res) => {
+  BlogPost
+    .findByIdAndRemove(req.params.id)
+    .then(() => {
+      console.log(`successfully deleted blog post with id \`${req.params.ID}\``);
+      res.status(204).end();
+    });
+});
+// .use send 404 and message if server doesn't connect 
+app.use('*', function (req, res) {
+  res.status(404).json({ message: 'Not Found' });
+});
+
