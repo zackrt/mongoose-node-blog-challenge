@@ -33,8 +33,8 @@ blogPostSchema.methods.serialize = function() {
       created: this.created
     };
 };
-//assign mongoose.model to a const BlogPost for export  
-const BlogPost = mongoose.model('BlogPost', blogPostSchema);
+//assign mongoose.model to a const BlogPost for export, need collection param singular at the end
+const BlogPost = mongoose.model('BlogPost', blogPostSchema,'BlogPost');
 //export as BlogPost for other js files  
 module.exports = {BlogPost};  
 
